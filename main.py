@@ -29,14 +29,22 @@ def lzma_compression_benchmark(data, levels=range(10)):
         start_time = time.time()
         compressed_data = lzma.compress(data, preset=level)
         end_time = time.time()
-
         compression_time = end_time - start_time
+
         compressed_size = len(compressed_data)
+
+        start_time = time.time()
+        decompressed_data = lzma.decompress(compressed_data)
+        end_time = time.time()
+        decompression_time = end_time - start_time
+
+        assert data == decompressed_data
 
         results.append({
             "Compression Level": level,
             "Time (seconds)": compression_time,
-            "Compressed Size (bytes)": compressed_size
+            "Compressed Size (bytes)": compressed_size,
+            "Decompress Time (seconds)": decompression_time
         })
 
     return results
@@ -48,14 +56,22 @@ def zlib_compression_benchmark(data, levels=range(10)):
         start_time = time.time()
         compressed_data = zlib.compress(data, level=level)
         end_time = time.time()
-
         compression_time = end_time - start_time
+
         compressed_size = len(compressed_data)
+
+        start_time = time.time()
+        decompressed_data = zlib.decompress(compressed_data)
+        end_time = time.time()
+        decompression_time = end_time - start_time
+
+        assert data == decompressed_data
 
         results.append({
             "Compression Level": level,
             "Time (seconds)": compression_time,
-            "Compressed Size (bytes)": compressed_size
+            "Compressed Size (bytes)": compressed_size,
+            "Decompress Time (seconds)": decompression_time
         })
 
     return results
@@ -67,14 +83,22 @@ def bz2_compression_benchmark(data, levels=range(1, 10)):
         start_time = time.time()
         compressed_data = bz2.compress(data, compresslevel=level)
         end_time = time.time()
-
         compression_time = end_time - start_time
+
         compressed_size = len(compressed_data)
+
+        start_time = time.time()
+        decompressed_data = bz2.decompress(compressed_data)
+        end_time = time.time()
+        decompression_time = end_time - start_time
+
+        assert data == decompressed_data
 
         results.append({
             "Compression Level": level,
             "Time (seconds)": compression_time,
-            "Compressed Size (bytes)": compressed_size
+            "Compressed Size (bytes)": compressed_size,
+            "Decompress Time (seconds)": decompression_time
         })
 
     return results
@@ -87,14 +111,23 @@ def zstd_compression_benchmark(data, levels=range(1, 23)):
         compressor = zstd.ZstdCompressor(level=level)
         compressed_data = compressor.compress(data)
         end_time = time.time()
-
         compression_time = end_time - start_time
+
         compressed_size = len(compressed_data)
+
+        start_time = time.time()
+        decompressor = zstd.ZstdDecompressor()
+        decompressed_data = decompressor.decompress(compressed_data)
+        end_time = time.time()
+        decompression_time = end_time - start_time
+
+        assert data == decompressed_data
 
         results.append({
             "Compression Level": level,
             "Time (seconds)": compression_time,
-            "Compressed Size (bytes)": compressed_size
+            "Compressed Size (bytes)": compressed_size,
+            "Decompress Time (seconds)": decompression_time
         })
 
     return results
@@ -106,14 +139,22 @@ def brotli_compression_benchmark(data, levels=range(0, 12)):  # Brotli levels ra
         start_time = time.time()
         compressed_data = brotli.compress(data, quality=level)
         end_time = time.time()
-
         compression_time = end_time - start_time
+
         compressed_size = len(compressed_data)
+
+        start_time = time.time()
+        decompressed_data = brotli.decompress(compressed_data)
+        end_time = time.time()
+        decompression_time = end_time - start_time
+
+        assert data == decompressed_data
 
         results.append({
             "Compression Level": level,
             "Time (seconds)": compression_time,
-            "Compressed Size (bytes)": compressed_size
+            "Compressed Size (bytes)": compressed_size,
+            "Decompress Time (seconds)": decompression_time
         })
 
     return results
