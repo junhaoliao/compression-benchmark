@@ -126,8 +126,10 @@ def print_as_table(results, name):
     print(tabulate.tabulate(rows, header))
     print()
 
+    # export to csv as well
     with open(f'{name}.csv', 'w') as csvfile:
         writer = csv.writer(csvfile)
+        writer.writerow(header)
         for r in rows:
             writer.writerow(r)
 
